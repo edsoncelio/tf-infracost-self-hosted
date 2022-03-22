@@ -1,5 +1,12 @@
+data "http" "myip" {
+  url = "https://api.ipify.org"
+
+  request_headers = {
+    Accept = "application/text"
+  }
+}
 data "template_file" "user_data" {
-  template = file("./scripts/instance-setup.yaml")
+  template = file("${path.module}/scripts/instance-setup.yaml")
 
   vars = {
     infracost_api_key   = "${var.infracost_api_key}"
@@ -20,23 +27,12 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"] # Canonical
-}
-
-data "aws_vpc" "selected" {
-  default = true
+  owners = ["099720109477"]
 }
 
 data "aws_subnets" "selected" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.selected.id]
-  }
-}
-
-data "aws_security_groups" "selecteds" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.selected.id]
+    values = [var.vpc_id]
   }
 }
