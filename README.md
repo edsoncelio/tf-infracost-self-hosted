@@ -1,17 +1,25 @@
 # Self-Hosted Infracost API
 
+This terraform module can be used to setup quickly a self-hosted infracost API.   
+To get more info about it, check https://www.infracost.io/docs/cloud_pricing_api/self_hosted/.
+
+
+## Before start
+First get your API_TOKEN from `infracost register`.   
+To get more information, check https://www.infracost.io/docs/features/cli_commands/.
+
 ## Usage
 ```hcl
 module "infracost_instance" {
-    source = "../"
+    source = "git@github.com:edsoncelio/tf-infracost-self-hosted.git"
 
-    ....ommited
+    ... ommited
 
 }
 ```
 The endpoint will take something like 7-8 minutes to be available.
 
-To use the infracost via CLI:
+To configure the infracost via CLI:
 ```shell
 infracost configure set pricing_api_endpoint <the endpoint from output>
 infracost configure set api_key <the key from output >
